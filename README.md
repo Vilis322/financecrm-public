@@ -1,114 +1,51 @@
-# Finance CRM
+# FinanceCRM
 
-**Enterprise-grade financial CRM for affiliate marketing operations.**
+Financial CRM for affiliate marketing operations — transaction tracking, expense management, ROI analytics, and team-based access control.
 
-Official release: **v2.16.0** | [Live Demo](https://pryiomyshev.financecrm.dev)
+## Overview
 
-> Developed by **Kyrylo Pryiomyshev**. All rights reserved.
-
----
-
-## Live Demo
-
-**[pryiomyshev.financecrm.dev](https://pryiomyshev.financecrm.dev)**
-
-Demo environment resets daily at 3:00 UTC. Feel free to explore all features.
-
----
+FinanceCRM is a comprehensive financial management tool built for teams running large-scale advertising operations. It handles income/expense tracking across multiple wallets, per-buyer financial analytics, dynamic role-based permissions, and real-time collaboration via WebSocket.
 
 ## Features
 
-### Dynamic Role-Based Access Control
+- Multi-wallet financial tracking (crypto, fiat, payment processors)
+- Income and expense management with EAV categories
+- Per-buyer and per-team ROI analytics
+- Dynamic RBAC with 50+ permission nodes and per-user overrides
+- Real-time updates via Socket.io
+- Audit trail for all financial operations
+- Leads module (toggle via feature flag)
+- Internationalization (EN/RU/UA)
+- Demo mode with fake seed data
 
-Fully dynamic permission system with 50+ permission nodes. Every module, tab, and action is independently toggleable per role or per user.
+## Demo
 
-- **6 isolated permission modules**: Dashboard, Statistics, Reports, Income Journal, Expense Journal, Settings
-- **Per-user overrides**: fine-tune individual permissions on top of role defaults
-- **Real-time sync**: permission changes apply instantly via WebSocket — no page reload needed
-- **Scope system**: Personal / Team / Company data isolation across all pages
-- **Auto scope fallback**: when permissions change, the UI automatically adjusts to the highest available access level
+Live demo: [financecrm.opsctl.tech](https://financecrm.opsctl.tech)
 
-### Financial Management
+Demo credentials on login page.
 
-- **Income tracking**: CPL, CPA, CRG income types with per-participant FTD tracking, GEO tags, and multi-user splits
-- **Expense tracking**: dynamic category parameters (text, number, date, select), team/personal expense types, split metadata
-- **Multi-wallet support**: balance tracking across multiple wallets
-- **Soft delete & restore**: full audit trail with deletedAt/deletedBy, one-click restore
-- **Server-side pagination**: journals with accurate count and total aggregation, server-side team/member filtering
+## Tech Stack
 
-### Analytics & Reporting
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, TypeScript, Tailwind CSS, Vite |
+| Backend | Node.js, Express 5, Prisma 7, PostgreSQL, Redis, Socket.io |
+| Auth | JWT + dynamic RBAC (roles, permissions, per-user overrides) |
+| i18n | react-i18next (EN/RU/UA) |
+| Process | PM2 (cluster mode) |
+| CI/CD | GitHub Actions, 4 environments |
 
-- **Dashboard**: monthly summary with interactive PieChart, LineChart, team breakdown table
-- **Statistics**: all-time analytics with date range, team/member, and expense class filters
-- **Reports**: bidirectional profit bars, expandable team structure, income type filter, CSV export
-- **Server-side aggregation**: Redis-cached statistics with automatic invalidation on data changes
+## Roadmap
 
-### Audit System
-
-- Complete audit trail for all CRUD operations (create, update, delete, restore, hard delete)
-- Before/after change tracking stored in JSON
-- Human-readable field names with full i18n support
-- Separate permissions for viewing, editing, and deleting audit records
-
-### Settings Management
-
-- **Users**: create, edit, assign roles, reset passwords, activate/deactivate, delete
-- **Teams**: create, edit, manage members, view team statistics
-- **Roles**: fully dynamic role editor with hierarchical permission tree
-- **Wallets**: multi-currency wallet management
-- **Expense categories**: two-level hierarchy with dynamic parameters
-- **Income categories & sources**: income classification with archive support
-
-### Internationalization
-
-3 fully translated locales: Russian, English, Ukrainian. Language preference persisted across sessions.
-
-### Security
-
-- JWT access + refresh tokens in httpOnly cookies
-- bcrypt password hashing
-- Rate limiting with optional Redis store
-- Automatic idle logout with warning dialog
-- Force logout via WebSocket on account changes
-
----
-
-## Architecture
-
-```
-Frontend:  React 18, TypeScript, Vite, TailwindCSS, React Router, react-i18next
-Backend:   Node.js, Express 5, TypeScript, Prisma ORM, Zod validation
-Database:  PostgreSQL, Redis (caching + rate limiting)
-Real-time: Socket.io (permission sync, force-logout, data broadcast)
-Deploy:    PM2 cluster mode, Nginx, GitHub Actions CI/CD
-```
-
-### Design Principles
-
-- **Dependency Injection** — services and repositories wired via container
-- **Repository Pattern** — data access abstracted behind interfaces
-- **Feature-based Modules** — each feature is a self-contained directory
-- **Full Permission Isolation** — each module checks only its own permissions via `source` parameter
-- **Zero-downtime Deploys** — PM2 cluster mode with graceful reload
-
----
-
-## Deployment
-
-Unified CI/CD pipeline with branch-based environment selection:
-
-| Branch | Environment | Description |
-|--------|-------------|-------------|
-| `main` | Production | Safe schema sync, cluster PM2, zero-downtime reload |
-| `stage` | Staging | Accepts schema changes, demo seed, fork PM2 |
-| `main` | Demo | Daily reset at 3:00 UTC, demo flags enabled |
-
----
+- Apache Kafka for cross-service financial events
+- Leads CRM extraction to standalone service (LeadCtl)
+- AI-powered financial analytics (opsctl.ai)
+- Loki + Grafana observability
 
 ## License
 
-**Proprietary Software**. All rights reserved.
+All rights reserved.
 
-Copyright (c) 2025-2026 **Kyrylo Pryiomyshev**.
+## Author
 
-For inquiries, contact via [GitHub](https://github.com/Vilis322).
+Kyrylo Pryiomyshev — [GitHub](https://github.com/Vilis322)
